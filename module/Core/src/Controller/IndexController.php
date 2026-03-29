@@ -11,6 +11,17 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        // Layout vacío (pantalla inicial)
+        $this->layout('layout/empty');
+
+        // 👇 Simulación (después esto va con sesión)
+        $logged = false;
+
+        if (!$logged) {
+            return $this->redirect()->toUrl('/login');
+        }
+
+        // 👇 Simulación de módulo
+        return $this->redirect()->toUrl('/etime');
     }
 }

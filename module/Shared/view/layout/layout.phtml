@@ -1,0 +1,210 @@
+<?php
+// Detectamos qué aplicación está corriendo
+$currentApp = $_ENV['APP_MODULE_TO_LOAD'] ?? 'Application';
+
+$menuConfig = [];
+$decodedMenu = json_decode($_ENV['APP_MENU_JSON'] ?? '', true);
+if (is_array($decodedMenu)) {
+    $menuConfig = $decodedMenu;
+}
+
+?>
+<?= $this->doctype() ?>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle($currentApp)->setSeparator(' - ')->setAutoEscape(false) ?>
+    <?= $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Baskerville:wght@700&family=Oswald:wght@600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!-- Estilos compartidos -->
+    <style>
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #ddd;
+            margin-top: auto;
+        }
+    </style>
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="<?= $this->basePath('css/style_own.css') ?>">
+</head>
+
+<body>
+
+    <!-- Menú lateral -->
+    <div id="side-menu">
+        <div class="menu-content">
+            <span id="logoSolution" class="logo-box">
+                <?php foreach (($menuConfig['logo']['images'] ?? []) as $logoImage): ?>
+                    <?php
+                    $rawSrc = (string) ($logoImage['src'] ?? '');
+                    $isAbsolute = preg_match('#^https?://#i', $rawSrc) === 1;
+                    $hasSlash = strpos($rawSrc, '/') !== false || strpos($rawSrc, '\\') !== false;
+                    $finalSrc = $rawSrc;
+                    if ($rawSrc !== '' && ! $isAbsolute && ! $hasSlash) {
+                        $finalSrc = $this->basePath('img/' . $rawSrc);
+                    }
+                    ?>
+                    <img alt="<?= htmlspecialchars($logoImage['alt'] ?? '') ?>" src="<?= htmlspecialchars($finalSrc) ?>" class="<?= htmlspecialchars($logoImage['class'] ?? '') ?>">
+                <?php endforeach; ?>
+            </span>
+            <div id="btn-open">
+                <button id="toggle-menu">
+                    <span id="icon-arrow" class="icon-arrow material-symbols-outlined">
+                        keyboard_tab
+                    </span>
+                </button>
+            </div>
+            <section class="container-menu-left">
+                <?php foreach (($menuConfig['sections'] ?? []) as $sectionIndex => $section): ?>
+                    <div class="menu-title <?= $sectionIndex === 0 ? 'first' : '' ?>">
+                        <span class="title-menu-left uppercase-text hidden no-select"><?= htmlspecialchars($section['title'] ?? '') ?></span>
+                    </div>
+                    <div class="container-list">
+                        <ul>
+                            <?php foreach (($section['items'] ?? []) as $itemIndex => $item): ?>
+                                <?php $isLanguage = isset($item['type']) && $item['type'] === 'language'; ?>
+                                <?php if ($isLanguage): ?>
+                                    <li id="leng-box">
+                                        <div class="mouse-hover no-select icon-end" id="language-toggle">
+                                            <span class="icon-list material-symbols-outlined">
+                                                <?= htmlspecialchars($item['icon'] ?? '') ?>
+                                            </span>
+                                            <a class="menu-left-a hidden-icon" href="<?= htmlspecialchars($item['href'] ?? '#') ?>"><?= htmlspecialchars($item['label'] ?? '') ?></a>
+                                            <?php if (!empty($item['submenu'])): ?>
+                                                <span class="icon-list-end material-symbols-outlined arrow-icon hidden-icon">chevron_right</span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <?php if (!empty($item['submenu'])): ?>
+                                            <div id="language-window" class="language-window">
+                                                <ul>
+                                                    <?php foreach (($item['submenu'] ?? []) as $submenuItem): ?>
+                                                        <li>
+                                                            <a href="#" data-code="<?= htmlspecialchars($submenuItem['code'] ?? '') ?>"><?= htmlspecialchars($submenuItem['label'] ?? '') ?></a>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </div>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php else: ?>
+                                    <li class="mouse-hover no-select icon-end">
+                                        <span class="icon-list material-symbols-outlined">
+                                            <?= htmlspecialchars($item['icon'] ?? '') ?>
+                                        </span>
+                                        <a class="menu-left-a hidden-icon" href="<?= htmlspecialchars($item['href'] ?? '#') ?>"><?= htmlspecialchars($item['label'] ?? '') ?></a>
+                                        <?php if (!empty($item['submenu'])): ?>
+                                            <span class="icon-list-end material-symbols-outlined arrow-icon hidden-icon">keyboard_arrow_down</span>
+                                        <?php endif; ?>
+                                    </li>
+                                    <?php if (!empty($item['submenu'])): ?>
+                                        <ul class="submenu">
+                                            <?php foreach (($item['submenu'] ?? []) as $submenuItem): ?>
+                                                <li>
+                                                    <span class="bullet">•</span>
+                                                    <a href="<?= htmlspecialchars($submenuItem['href'] ?? '#') ?>"><?= htmlspecialchars($submenuItem['label'] ?? '') ?></a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endforeach; ?>
+            </section>
+        </div>
+        <div id="hover-zone"></div>
+    </div>
+
+    <!-- Menú superior -->
+    <div id="top-menu">
+        <div class="left-options">
+            <a href="#">Configuración</a>
+            <a href="#">Pages</a>
+        </div>
+        <div class="right-options">
+
+
+            <div class="dropdown-container">
+                <a href="#" class="dropdown-button">Módulo</a>
+                <div class="dropdown-menu">
+                    <a href="?set_module=MiApp3">Application</a>
+                    <a href="?set_module=MiApp1">Eprivacy</a>
+                    <a href="?set_module=MiApp2">Etime</a>
+                </div>
+            </div>
+
+            <style>
+                .dropdown-button.dropdown-container-profile {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    text-decoration: none;
+                    color: #333;
+                }
+
+                /* tamaño del icono */
+                .icon {
+                    width: 18px;
+                    height: 18px;
+                }
+            </style>
+
+            <!-- Segundo menú -->
+            <div class="dropdown-container">
+                <a href="#" class="dropdown-button dropdown-container-profile">
+                    Perfil
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 
+                    2.3-5 5 2.3 5 5 5zm0 2c-3.3 
+                    0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#">Holaaaaaaa</a>
+                    <a href="/logout">Cerrar sesión</a>
+                </div>
+            </div>
+
+            <!-- Tercer menú -->
+            <div class="dropdown-container">
+                <a href="#" class="dropdown-button">Opción 3</a>
+                <div class="dropdown-menu">
+                    <a href="#">Holaaaaaaa</a>
+                    <a href="#">Holaaaaaaa</a>
+                    <a href="#">Holaaaaaaa</a>
+                    <a href="#">Holaaaaaaa</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div id="main-content">
+        <div class="box-head">
+            <?= $this->content ?>
+        </div>
+
+        <footer>
+            &copy; <?= date('Y') ?> - Módulo Compartido "Shared"
+        </footer>
+    </div>
+
+
+
+    <script src="<?= $this->basePath('js/scripts.js') ?>"></script>
+</body>
+
+</html>

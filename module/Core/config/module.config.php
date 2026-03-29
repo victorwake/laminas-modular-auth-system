@@ -10,6 +10,16 @@ return [
 
     'router' => [
         'routes' => [
+            'home' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
             'core' => [
                 'type' => Literal::class,
                 'options' => [

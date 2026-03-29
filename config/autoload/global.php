@@ -13,5 +13,7 @@
  */
 
 return [
-    // ...
+    'view_manager' => [
+        'base_path' => '/',
+    ],
 ];

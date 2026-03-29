@@ -10,13 +10,23 @@ return [
 
     'router' => [
         'routes' => [
-            'auth' => [
+            'login' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route' => '/auth',
+                    'route' => '/login',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action' => 'index',
+                    ],
+                ],
+            ],
+            'logout' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/logout',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action' => 'logout',
                     ],
                 ],
             ],
@@ -25,7 +35,7 @@ return [
 
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => function($container) {
+            Controller\IndexController::class => function ($container) {
                 return new Controller\IndexController();
             },
         ],
