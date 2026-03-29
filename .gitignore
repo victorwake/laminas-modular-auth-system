@@ -7,7 +7,5 @@ data/cache/*
 !data/cache/.gitkeep
 phpunit.xml
 
-echo ".env" >> .gitignore
-git add .gitignore
-git commit -m "Add .env to gitignore"
-".env" 
+.env
+.env.*
