@@ -65,6 +65,59 @@ $apiUrl = $apiBase . rtrim($apiPath, '/') . '/' . $apiModule;
 
 $menuJson = null;
 
+// JSON por defecto si la API no responde
+
+$defaultMenuJson = '{
+    "logo": {
+        "images": [
+            {"src": "logo.webp", "alt": "eprivacy.ecix.tech", "class": "h-30px no-select"},
+            {"src": "ePrivacy.webp", "alt": "eprivacy.ecix.tech", "class": "h-30px no-select"}
+        ]
+    },
+    "sections": [
+        {
+            "title": "Pages",
+            "items": [
+                {
+                    "label": "Dashboard",
+                    "href": "/dashboard",
+                    "icon": "dashboard"
+                },
+                {
+                    "label": "Configuración",
+                    "href": "/config",
+                    "icon": "settings"
+                }
+            ]
+        },
+        {
+            "title": "Help",
+            "items": [
+                {
+                    "label": "Documentación",
+                    "icon": "note_stack",
+                    "href": "#"
+                },
+                {
+                    "label": "Contacto",
+                    "icon": "contact_mail",
+                    "href": "#"
+                }
+            ]
+        },
+        {
+    "title": "Footer",
+    "items": [
+        {
+            "label": "Versión 1.0.0",
+            "icon": "info",
+            "href": "#"
+        }
+    ]
+}
+    ]
+}';
+
 if (function_exists('curl_init')) {
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -89,6 +142,11 @@ if (function_exists('curl_init')) {
     if (is_string($responseBody)) {
         $menuJson = $responseBody;
     }
+}
+
+// Si no hay respuesta de la API, usar el JSON por defecto
+if ($menuJson === null) {
+    $menuJson = $defaultMenuJson;
 }
 
 if (is_string($menuJson) && $menuJson !== '') {
