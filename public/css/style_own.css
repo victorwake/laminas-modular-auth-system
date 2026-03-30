@@ -278,6 +278,11 @@ li {
     display: none !important;
   }
 
+  .dropdown-button .icon-top {
+    color: #40a04c !important;
+    padding: 10px 0;
+}
+
   .mouse-hover {
     cursor: pointer;
   }
@@ -539,6 +544,8 @@ li.active .arrow-icon {
 .dropdown-menu a:hover {
     background-color: #f8f9fa;
 }
+
+
 
 
 
