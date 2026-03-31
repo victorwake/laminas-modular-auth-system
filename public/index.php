@@ -81,12 +81,12 @@ $defaultMenuJson = '{
                 {
                     "label": "Dashboard",
                     "href": "/dashboard",
-                    "icon": "dashboard"
+                    "icon": "dashboard.svg"
                 },
                 {
                     "label": "Configuración",
                     "href": "/config",
-                    "icon": "settings"
+                    "icon": "settings.svg"
                 }
             ]
         },
@@ -95,12 +95,12 @@ $defaultMenuJson = '{
             "items": [
                 {
                     "label": "Documentación",
-                    "icon": "note_stack",
+                    "icon": "note_stack.svg",
                     "href": "#"
                 },
                 {
                     "label": "Contacto",
-                    "icon": "contact_mail",
+                    "icon": "contact_mail.svg",
                     "href": "#"
                 }
             ]
@@ -110,7 +110,7 @@ $defaultMenuJson = '{
     "items": [
         {
             "label": "Versión 1.0.0",
-            "icon": "info",
+            "icon": "info.svg",
             "href": "#"
         }
     ]
