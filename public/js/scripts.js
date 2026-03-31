@@ -57,74 +57,65 @@ const elementosTitleMenuLeft = document.querySelectorAll('.title-menu-left');
 const menuLeftA = document.querySelectorAll('.menu-left-a');
 const iconArrow = document.querySelectorAll('.arrow-icon');
 
-let isSideMenuOpen = false;
+let isSideMenuVisible = false;
+let isSideMenuPinned = false;
+
+function abrirSideMenuOverlay() {
+    sideMenu.classList.add('open');
+    elementosTitleMenuLeft.forEach(elemento => elemento.classList.remove('hidden'));
+    menuLeftA.forEach(elemento => elemento.classList.remove('hidden-icon'));
+    iconArrow.forEach(elemento => elemento.classList.remove('hidden-icon'));
+    isSideMenuVisible = true;
+}
+
+function abrirSideMenuPinned() {
+    abrirSideMenuOverlay();
+    topMenu.classList.add('open');
+    mainContent.classList.add('open');
+    isSideMenuPinned = true;
+}
+
+function cerrarSideMenu() {
+    sideMenu.classList.remove('open');
+    topMenu.classList.remove('open');
+    mainContent.classList.remove('open');
+    elementosTitleMenuLeft.forEach(elemento => elemento.classList.add('hidden'));
+    menuLeftA.forEach(elemento => elemento.classList.add('hidden-icon'));
+    iconArrow.forEach(elemento => elemento.classList.add('hidden-icon'));
+    cerrarSubmenus();
+    isSideMenuVisible = false;
+    isSideMenuPinned = false;
+}
 
 // Evento para abrir/cerrar el menú lateral al hacer clic en el botón
 toggleMenuButton.addEventListener('click', (event) => {
     event.stopPropagation(); // Evita que el clic afecte otros eventos
-    isSideMenuOpen = !isSideMenuOpen;
-    
-    if (isSideMenuOpen) {
-        sideMenu.classList.add('open');
-        topMenu.classList.add('open');
-        mainContent.classList.add('open');
-        elementosTitleMenuLeft.forEach(elemento => {
-            elemento.classList.remove('hidden'); // Remueve 'hidden'
-        });   
-        menuLeftA.forEach(elemento => {
-            elemento.classList.remove('hidden-icon'); // Remueve 'hidden'
-        }); 
-        iconArrow.forEach(elemento => {
-            elemento.classList.remove('hidden-icon'); // Remueve 'hidden'
-        }); 
-    } else {
-        sideMenu.classList.remove('open');
-        topMenu.classList.remove('open');
-        mainContent.classList.remove('open');
-        elementosTitleMenuLeft.forEach(elemento => {
-            elemento.classList.add('hidden'); // Añade 'hidden'
-        });
-        menuLeftA.forEach(elemento => {
-            elemento.classList.add('hidden-icon'); // Remueve 'hidden'
-        }); 
-        iconArrow.forEach(elemento => {
-            elemento.classList.add('hidden-icon'); // Remueve 'hidden'
-        }); 
+
+    if (!isSideMenuVisible) {
+        abrirSideMenuPinned();
+        return;
     }
+
+    if (!isSideMenuPinned) {
+        abrirSideMenuPinned();
+        return;
+    }
+
+    cerrarSideMenu();
 });
 
 // Evento para abrir el menú al pasar el mouse (solo si no está sobre el botón)
 sideMenu.addEventListener('mouseenter', (event) => {
-    if (!isSideMenuOpen && !toggleMenuButton.contains(event.relatedTarget)) {
-        sideMenu.classList.add('open');
-        elementosTitleMenuLeft.forEach(elemento => {
-            elemento.classList.remove('hidden'); // Remueve 'hidden'
-        });  
-        menuLeftA.forEach(elemento => {
-            elemento.classList.remove('hidden-icon'); // Remueve 'hidden'
-        });  
-        iconArrow.forEach(elemento => {
-            elemento.classList.remove('hidden-icon'); // Remueve 'hidden'
-        }); 
+    if (!isSideMenuVisible && !toggleMenuButton.contains(event.relatedTarget)) {
+        abrirSideMenuOverlay();
         cerrarSubmenus();
     }
 });
 
 // Evento para cerrar el menú al salir del área del menú (solo si no está abierto)
 sideMenu.addEventListener('mouseleave', (event) => {
-    // Comprobamos que el mouse no esté sobre el contenedor del idioma antes de cerrar el menú lateral
-    if (!isSideMenuOpen && (!languageContainer || !languageContainer.contains(event.relatedTarget))) {
-        sideMenu.classList.remove('open');
-        elementosTitleMenuLeft.forEach(elemento => {
-            elemento.classList.add('hidden'); // Añade 'hidden'
-        });
-        menuLeftA.forEach(elemento => {
-            elemento.classList.add('hidden-icon'); // Remueve 'hidden'
-        }); 
-        iconArrow.forEach(elemento => {
-            elemento.classList.add('hidden-icon'); // Remueve 'hidden'
-        }); 
-        cerrarSubmenus();
+    if (!isSideMenuPinned && isSideMenuVisible && (!languageContainer || !languageContainer.contains(event.relatedTarget))) {
+        cerrarSideMenu();
     }
 });
 
@@ -142,20 +133,18 @@ function cerrarSubmenus() {
     });
 }
 
-toggleMenuButton.addEventListener('click', (event) => {
-    if (!isSideMenuOpen) {
-        cerrarSubmenus();
-    }
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     const menuItems = document.querySelectorAll(".mouse-hover.icon-end");
 
     menuItems.forEach(item => {
-        item.addEventListener("click", function () {
-            this.classList.toggle("active");
-
+        item.addEventListener("click", function (event) {
             let submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains("submenu") && !isSideMenuVisible) {
+                abrirSideMenuPinned();
+            }
+
+            this.classList.toggle("active");
 
             if (submenu && submenu.classList.contains("submenu")) {
                 if (submenu.style.maxHeight) {
