@@ -77,8 +77,16 @@ if (is_array($decodedMenu)) {
                                 <?php if ($isLanguage): ?>
                                     <li id="leng-box">
                                         <div class="mouse-hover no-select icon-end" id="language-toggle">
-                                            <span class="icon-list material-symbols-outlined">
-                                                <?= htmlspecialchars($item['icon'] ?? '') ?>
+                                            <?php
+                                            $iconName = basename((string) ($item['icon'] ?? ''));
+                                            if ($iconName !== '' && preg_match('/\.(svg|png|jpg|jpeg|gif)$/i', $iconName) !== 1) {
+                                                $iconName .= '.svg';
+                                            }
+                                            ?>
+                                            <span class="icon-list icon-list-image">
+                                                <?php if ($iconName !== ''): ?>
+                                                    <img src="<?= $this->basePath('img/icon/color/' . htmlspecialchars($iconName, ENT_QUOTES, 'UTF-8')) ?>" alt="<?= htmlspecialchars($item['label'] ?? '') ?>" class="icon-img" />
+                                                <?php endif; ?>
                                             </span>
                                             <a class="menu-left-a hidden-icon" href="<?= htmlspecialchars($item['href'] ?? '#') ?>"><?= htmlspecialchars($item['label'] ?? '') ?></a>
                                             <?php if (!empty($item['submenu'])): ?>
@@ -99,8 +107,16 @@ if (is_array($decodedMenu)) {
                                     </li>
                                 <?php else: ?>
                                     <li class="mouse-hover no-select icon-end">
-                                        <span class="icon-list material-symbols-outlined">
-                                            <?= htmlspecialchars($item['icon'] ?? '') ?>
+                                        <?php
+                                        $iconName = basename((string) ($item['icon'] ?? ''));
+                                        if ($iconName !== '' && preg_match('/\.(svg|png|jpg|jpeg|gif)$/i', $iconName) !== 1) {
+                                            $iconName .= '.svg';
+                                        }
+                                        ?>
+                                        <span class="icon-list icon-list-image">
+                                            <?php if ($iconName !== ''): ?>
+                                                <img src="<?= $this->basePath('img/icon/color/' . htmlspecialchars($iconName, ENT_QUOTES, 'UTF-8')) ?>" alt="<?= htmlspecialchars($item['label'] ?? '') ?>" class="icon-img" />
+                                            <?php endif; ?>
                                         </span>
                                         <a class="menu-left-a hidden-icon" href="<?= htmlspecialchars($item['href'] ?? '#') ?>"><?= htmlspecialchars($item['label'] ?? '') ?></a>
                                         <?php if (!empty($item['submenu'])): ?>
@@ -133,12 +149,13 @@ if (is_array($decodedMenu)) {
             <a href="#">Configuración</a>
             <a href="#">Pages</a>
         </div>
-        <div class="right-options">
+        <div class="right-options grap-icon-top">
 
 
             <div class="dropdown-container">
-                <a href="#" class="dropdown-button dropdown-container-profile">Módulo
-                    <span class="material-symbols-outlined icon-top">view_module</span>
+                <a href="#" class="dropdown-button dropdown-container-profile">
+                    <!-- <span class="material-symbols-outlined icon-top">view_module</span> -->
+                    <img src="<?= $this->basePath('img/icon/header_account.svg') ?>" alt="Cuenta" class="icon-top" />
                 </a>
                 <div class="dropdown-menu">
                     <a href="?set_module=MiApp3">Application</a>
@@ -166,8 +183,7 @@ if (is_array($decodedMenu)) {
             <!-- Segundo menú -->
             <div class="dropdown-container">
                 <a href="#" class="dropdown-button dropdown-container-profile">
-                    Perfil
-                    <span class="material-symbols-outlined icon-top">manage_accounts</span>
+                    <img src="<?= $this->basePath('img/icon/person.svg') ?>" alt="Cuenta" class="icon-top" />
                 </a>
                 <div class="dropdown-menu">
                     <a href="#">Holaaaaaaa</a>
@@ -175,12 +191,12 @@ if (is_array($decodedMenu)) {
                 </div>
             </div>
 
-               <!-- Tercer menú -->
+            <!-- Tercer menú -->
             <div class="dropdown-container">
-                <a href="#" class="dropdown-button dropdown-container-profile">Admin
-                    <span class="material-symbols-outlined icon-top">settings</span>
+                <a href="#" class="dropdown-button dropdown-container-profile">
+                    <img src="<?= $this->basePath('img/icon/header_config.svg') ?>" alt="Cuenta" class="icon-top" />
                 </a>
-                
+
                 <div class="dropdown-menu">
                     <a href="#">Admin. Accesos</a>
                     <a href="#">Holaaaaaaa</a>

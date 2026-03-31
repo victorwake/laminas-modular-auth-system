@@ -278,9 +278,20 @@ li {
     display: none !important;
   }
 
-  .dropdown-button .icon-top {
+.dropdown-button .icon-top {
     color: #40a04c !important;
+    fill: #40a04c !important;
     padding: 10px 0;
+    pointer-events: none;
+     width: 24px;
+}
+
+.icon-list img,
+.icon-img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    vertical-align: middle;
 }
 
   .mouse-hover {
@@ -545,6 +556,9 @@ li.active .arrow-icon {
     background-color: #f8f9fa;
 }
 
+.grap-icon-top {
+    gap: 10px !important;
+}
 
 
 
