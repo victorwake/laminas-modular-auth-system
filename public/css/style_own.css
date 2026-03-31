@@ -539,6 +539,11 @@ li.active .arrow-icon {
     transform-origin: top;
 }
 
+.dropdown-container.dropdown-open-right .dropdown-menu {
+    left: 0;
+    right: auto;
+}
+
 .dropdown-menu.active {
     max-height: 500px;
     opacity: 1;
@@ -546,18 +551,34 @@ li.active .arrow-icon {
 
 .dropdown-menu a {
     display: block;
-    padding: 10px 15px;
+    padding: 5px 5px;
     text-decoration: none;
     color: #333;
-    border-bottom: 1px solid #eee;
+    font-weight: 400;
+    /* border-bottom: 1px solid #eee; */
 }
 
 .dropdown-menu a:hover {
     background-color: #f8f9fa;
+    border-radius: 5px;
+    color: #40a04c;
 }
 
 .grap-icon-top {
     gap: 10px !important;
+}
+
+.menu-config {
+    padding: 5px;
+}
+
+.title-dropdown-top {
+     display: block;
+    padding: 5px 5px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
 }
 
 

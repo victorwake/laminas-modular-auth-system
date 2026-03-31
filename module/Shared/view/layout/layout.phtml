@@ -147,7 +147,18 @@ if (is_array($decodedMenu)) {
     <div id="top-menu">
         <div class="left-options">
             <a href="#">Configuración</a>
-            <a href="#">Pages</a>
+            <div class="dropdown-container dropdown-open-right">
+                <a href="#" class="dropdown-button dropdown-container-profile">
+                    <!-- <span class="material-symbols-outlined icon-top">view_module</span> -->
+                    <img src="<?= $this->basePath('img/icon/category_search.svg') ?>" alt="Cuenta" class="icon-top" />
+                </a>
+                <div class="dropdown-menu menu-config">
+                    <span class="title-dropdown-top no-select">Mis Módulos</span>
+                    <a href="?set_module=MiApp3">Application</a>
+                    <a href="?set_module=MiApp1">Eprivacy</a>
+                    <a href="?set_module=MiApp2">Etime</a>
+                </div>
+            </div>
         </div>
         <div class="right-options grap-icon-top">
 
@@ -157,10 +168,11 @@ if (is_array($decodedMenu)) {
                     <!-- <span class="material-symbols-outlined icon-top">view_module</span> -->
                     <img src="<?= $this->basePath('img/icon/header_account.svg') ?>" alt="Cuenta" class="icon-top" />
                 </a>
-                <div class="dropdown-menu">
-                    <a href="?set_module=MiApp3">Application</a>
-                    <a href="?set_module=MiApp1">Eprivacy</a>
-                    <a href="?set_module=MiApp2">Etime</a>
+                <div class="dropdown-menu menu-config">
+                    <span class="title-dropdown-top no-select">Mis Cuentas</span>
+                    <a href="">Cuenta 1</a>
+                    <a href="">Cuenta 2</a>
+                    <a href="">Cuenta 3</a>
                 </div>
             </div>
 
@@ -185,7 +197,8 @@ if (is_array($decodedMenu)) {
                 <a href="#" class="dropdown-button dropdown-container-profile">
                     <img src="<?= $this->basePath('img/icon/person.svg') ?>" alt="Cuenta" class="icon-top" />
                 </a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu menu-config">
+                    <span class="title-dropdown-top no-select">Perfil Usuario</span>
                     <a href="#">Holaaaaaaa</a>
                     <a href="/logout">Cerrar sesión</a>
                 </div>
@@ -197,7 +210,8 @@ if (is_array($decodedMenu)) {
                     <img src="<?= $this->basePath('img/icon/header_config.svg') ?>" alt="Cuenta" class="icon-top" />
                 </a>
 
-                <div class="dropdown-menu">
+                <div class="dropdown-menu menu-config">
+                    <span class="title-dropdown-top no-select">Administrador</span>
                     <a href="#">Admin. Accesos</a>
                     <a href="#">Holaaaaaaa</a>
                     <a href="#">Holaaaaaaa</a>
